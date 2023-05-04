@@ -14,7 +14,7 @@ class Reader:
 
     def consume(self):
         self.i += 1
-        return self.i-1, self.expr[self.i-1]
-    
+        return self.i - 1, self.expr[self.i - 1]
+
     def peek(self):
-        return self.i-1, self.expr[self.i]
+        return self.i - 1, self.expr[self.i]

@@ -1,17 +1,13 @@
 import sys
-from reader import Reader
-from definitions import (
-    ESCAPE_CHARACTER,
-    SPECIAL_CHARACTERS,
-    Char
-)
+from .reader import Reader
+from .definitions import ESCAPE_CHARACTER, SPECIAL_CHARACTERS, Char
 
-debug = False
-if len(sys.argv) > 1:
-    debug = True
+DEBUG = False
+
 
 class LexerException(Exception):
     pass
+
 
 class Lexer:
     def __init__(self, expr) -> None:
@@ -29,11 +25,10 @@ class Lexer:
             i, c = self.reader.consume()
             if c == ESCAPE_CHARACTER and self.reader.EOF():
                 raise LexerException("Recieved escape character at EOF")
-            
+
             if c == ESCAPE_CHARACTER:
                 i, c = self.reader.consume()
                 yield Char(c)
-    
 
             elif c not in SPECIAL_CHARACTERS:
                 yield Char(c)
@@ -41,9 +36,8 @@ class Lexer:
             elif c in SPECIAL_CHARACTERS:
                 yield c
 
-
     def EOF(self):
-        if debug:
+        if DEBUG:
             print(f"[INFO] Checked EOF at index {self.i}.")
 
         if self.i >= self._length:
@@ -52,21 +46,19 @@ class Lexer:
 
     def consume(self):
         self.i += 1
-        if debug:
-            print(f"[INFO] Trying to consume {self._tokenStream[self.i-1]} at index {self.i-1}")
-        return self.i-1, self._tokenStream[self.i-1]
-    
+        if DEBUG:
+            print(
+                f"[INFO] Trying to consume {self._tokenStream[self.i-1]} at index {self.i-1}"
+            )
+        return self.i - 1, self._tokenStream[self.i - 1]
+
     def peek(self):
-        if debug:
-            print(f"[INFO] Trying to peek {self._tokenStream[self.i]} at index {self.i}")
+        if DEBUG:
+            print(
+                f"[INFO] Trying to peek {self._tokenStream[self.i]} at index {self.i}"
+            )
         return self.i, self._tokenStream[self.i]
-            
+
     def stream(self):
         for q in self._tokenStream:
             yield q
-
-
-
-
-
-

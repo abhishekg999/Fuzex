@@ -1,6 +1,7 @@
 import os
 import sys
-sys.path.insert(0,'..')
+
+sys.path.insert(0, "..")
 
 import unittest
 from unittest import TestCase
@@ -17,8 +18,7 @@ class TestLexer(TestCase):
         for e, s in zip(self.static_ex, self.static_ex_size):
             L = Lexer(e)
             self.assertEqual(len(L), s, f"Expected size {s} on input {e}, got {len(L)}")
-            
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
