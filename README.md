@@ -34,7 +34,7 @@ optional arguments:
 By default, Fuzex is limited to generating 100000 lines. To bypass, use the `--force` flag.
 
 ## Commands
-If you know basic Regex, you know Fuzex! Fuzex commads currently support basic operations such as groups, character ranges, and repeated characters.
+If you know basic Regex, you know Fuzex! Fuzex commands currently support basic operations such as groups, character ranges, and repeated characters.
 
 
 #### Characters typed as they are will be generated as they are.
