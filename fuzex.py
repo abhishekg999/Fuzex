@@ -34,7 +34,7 @@ def main(args):
     parser = Parser(input_cmd)
     expression = parser.parse()
 
-    if expression.size() > FUZEX_TOO_MANY_WORDS:
+    if not args.force and expression.size() > FUZEX_TOO_MANY_WORDS:
         err_print(f"The provided expression will generate {expression.size()} lines.")
         err_print("If you still want to run this, use the --force flag.")
         sys.exit(1)
