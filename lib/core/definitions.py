@@ -226,11 +226,7 @@ class Expression:
     def generate(self):
         yield from self._generate(0)
 
-    def _generate(self, n):
-        # TODO: this is a hack of a fix, probably need additional changes
-        if not n:
-            return
-        
+    def _generate(self, n):        
         if n == len(self.statements) - 1:
             yield from self.statements[n].generate()
         else:
