@@ -7,8 +7,7 @@ Python based fuzzer with a regex like syntax. Supports generation of strings and
 
 ## Installation
 
-Install the fuzex source through github. Then install the needed packages.
-
+Install the fuzex source through github.
 ```bash
 git clone https://github.com/abhishekg999/Fuzex
 cd Fuzex
