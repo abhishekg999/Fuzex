@@ -12,7 +12,6 @@ Install the fuzex source through github. Then install the needed packages.
 ```bash
 git clone https://github.com/abhishekg999/Fuzex
 cd Fuzex
-pip install -r requirements.txt
 ```
 
 
