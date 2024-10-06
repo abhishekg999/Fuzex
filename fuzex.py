@@ -31,7 +31,6 @@ def main(args):
     output_file = args.output
     if args.debug:
         import lib.core
-
         lib.core.DEBUG = True
 
     from lib.core.parse import Parser
@@ -39,17 +38,26 @@ def main(args):
     parser = Parser(input_cmd)
     expression = parser.parse()
 
+    if args.size:
+        print(expression.size())
+        sys.exit(0)
+
     if args.debug:
-        print("[DEBUG] Expression generated:", expression)
-        print("[DEBUG] Size of expression:", expression.size())
+        err_print("[DEBUG] Expression generated:", expression)
+        err_print("[DEBUG] Size of expression:", expression.size())
 
     if not args.force and expression.size() > FUZEX_TOO_MANY_WORDS:
         err_print(f"The provided expression will generate {expression.size()} lines.")
         err_print("If you still want to run this, use the --force flag.")
         sys.exit(1)
 
-    for line in expression.generate():
-        fprint(output_file, line)
+    if args.output == sys.stdout:
+        for line in expression.generate():
+            sys.stdout.write(line)
+            sys.stdout.write("\n")
+    else:
+        for line in expression.generate():
+            fprint(output_file, line)
 
     sys.exit(0)
 
@@ -57,6 +65,12 @@ def main(args):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Fuzex command line arguments")
     parser.add_argument("-c", "--cmd", help="input command (required)", required=True)
+    parser.add_argument(
+        "-s",
+        "--size",
+        help="get the size of the expression",
+        action="store_true",
+    )
     parser.add_argument(
         "-o",
         "--output",

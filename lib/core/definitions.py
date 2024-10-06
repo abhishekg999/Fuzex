@@ -125,7 +125,7 @@ class DynamicChar:
 
     def _get_range(self, i, j):
         if ord(j) < ord(i):
-            raise self.RangeException()
+            raise self.RangeException("Start of range is greater than end of range")
         return [chr(x) for x in range(ord(i), ord(j) + 1)]
 
     def __init__(self, expr="") -> None:

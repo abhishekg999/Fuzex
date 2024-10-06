@@ -3,6 +3,8 @@ from .reader import Reader
 from .definitions import ESCAPE_CHARACTER, SPECIAL_CHARACTERS, Char
 
 from . import DEBUG
+_print = print
+print = lambda *args, **kwargs: _print(*args, file=sys.stderr, **kwargs)
 
 
 class LexerException(Exception):
