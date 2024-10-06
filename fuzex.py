@@ -19,7 +19,7 @@ import sys
 import argparse
 from lib.helpers import fprint, err_print
 
-FUZEX_TOO_MANY_WORDS = 100000
+FUZEX_TOO_MANY_WORDS = 1000000
 
 if sys.version_info < (3, 7):
     err_print("Fuzex requires python 3.7 or higher")
