@@ -80,6 +80,7 @@ variable_name:
     | INPUT_NAME_CHARACTER+
 
 """
+
 from math import prod
 
 
@@ -109,7 +110,7 @@ class Char:
         self.value = value
 
     def __repr__(self):
-        return f"{self.__class__}({self.value})"
+        return f"{self.__class__.__name__}({self.value})"
 
     def size(self):
         return 1
@@ -124,7 +125,7 @@ class DynamicChar:
 
     def _get_range(self, i, j):
         if ord(j) < ord(i):
-            raise self.RangeException()
+            raise self.RangeException("Start of range is greater than end of range")
         return [chr(x) for x in range(ord(i), ord(j) + 1)]
 
     def __init__(self, expr="") -> None:
@@ -221,12 +222,16 @@ class Expression:
         self.statements = []
 
     def __repr__(self) -> str:
-        return f"{self.__class__}({self.statements})"
+        return f"{self.__class__.__name__}({self.statements})"
 
     def generate(self):
         yield from self._generate(0)
 
-    def _generate(self, n):        
+    def _generate(self, n):
+        if len(self.statements) == 0:
+            yield ""
+            return
+
         if n == len(self.statements) - 1:
             yield from self.statements[n].generate()
         else:
@@ -259,7 +264,7 @@ class Statement:
         self.quantifier = quantifier
 
     def __repr__(self) -> str:
-        return f"{self.__class__}({self.value},{self.quantifier})"
+        return f"{self.__class__.__name__}({self.value},{self.quantifier})"
 
     def size(self):
         return sum(

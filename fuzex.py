@@ -17,10 +17,9 @@
 
 import sys
 import argparse
-from lib.core.parse import Parser
 from lib.helpers import fprint, err_print
 
-FUZEX_TOO_MANY_WORDS = 100000
+FUZEX_TOO_MANY_WORDS = 1000000
 
 if sys.version_info < (3, 7):
     err_print("Fuzex requires python 3.7 or higher")
@@ -30,17 +29,35 @@ if sys.version_info < (3, 7):
 def main(args):
     input_cmd = args.cmd
     output_file = args.output
+    if args.debug:
+        import lib.core
+        lib.core.DEBUG = True
+
+    from lib.core.parse import Parser
 
     parser = Parser(input_cmd)
     expression = parser.parse()
+
+    if args.size:
+        print(expression.size())
+        sys.exit(0)
+
+    if args.debug:
+        err_print("[DEBUG] Expression generated:", expression)
+        err_print("[DEBUG] Size of expression:", expression.size())
 
     if not args.force and expression.size() > FUZEX_TOO_MANY_WORDS:
         err_print(f"The provided expression will generate {expression.size()} lines.")
         err_print("If you still want to run this, use the --force flag.")
         sys.exit(1)
 
-    for line in expression.generate():
-        fprint(output_file, line)
+    if args.output == sys.stdout:
+        for line in expression.generate():
+            sys.stdout.write(line)
+            sys.stdout.write("\n")
+    else:
+        for line in expression.generate():
+            fprint(output_file, line)
 
     sys.exit(0)
 
@@ -48,6 +65,12 @@ def main(args):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Fuzex command line arguments")
     parser.add_argument("-c", "--cmd", help="input command (required)", required=True)
+    parser.add_argument(
+        "-s",
+        "--size",
+        help="get the size of the expression",
+        action="store_true",
+    )
     parser.add_argument(
         "-o",
         "--output",
@@ -60,6 +83,12 @@ if __name__ == "__main__":
         "-f",
         "--force",
         help="Will allow Fuzex to process a large generation of words",
+        action="store_true",
+    )
+    parser.add_argument(
+        "-d",
+        "--debug",
+        help="Enable debug mode",
         action="store_true",
     )
 

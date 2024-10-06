@@ -209,7 +209,7 @@ class Parser:
         return Join(expression)
 
     def _parse_variable_name(self):
-        return "var"
+        return Char("var") # TODO: implement actual variables?
 
     def _parse_variable(self) -> Variable:
         i, c = self.Lexer.consume()
@@ -234,24 +234,3 @@ class Parser:
         """
         pass
 
-
-if __name__ == "__main__":
-    EXP = r"(abc([a-z]?[d-f]?))?"
-    P = Parser(EXP)
-
-    EXP = P.parse()
-
-    import jsonpickle
-    import json
-
-    serialized = jsonpickle.encode(EXP)
-    print(json.dumps(json.loads(serialized), indent=4))
-
-    i = 0
-
-    for e in EXP.generate():
-        print(e)
-        i += 1
-
-    print(EXP.size())
-    assert EXP.size() == i
