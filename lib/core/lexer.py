@@ -2,7 +2,7 @@ import sys
 from .reader import Reader
 from .definitions import ESCAPE_CHARACTER, SPECIAL_CHARACTERS, Char
 
-DEBUG = False
+from . import DEBUG
 
 
 class LexerException(Exception):

@@ -17,7 +17,6 @@
 
 import sys
 import argparse
-from lib.core.parse import Parser
 from lib.helpers import fprint, err_print
 
 FUZEX_TOO_MANY_WORDS = 100000
@@ -30,9 +29,19 @@ if sys.version_info < (3, 7):
 def main(args):
     input_cmd = args.cmd
     output_file = args.output
+    if args.debug:
+        import lib.core
+
+        lib.core.DEBUG = True
+
+    from lib.core.parse import Parser
 
     parser = Parser(input_cmd)
     expression = parser.parse()
+
+    if args.debug:
+        print("[DEBUG] Expression generated:", expression)
+        print("[DEBUG] Size of expression:", expression.size())
 
     if not args.force and expression.size() > FUZEX_TOO_MANY_WORDS:
         err_print(f"The provided expression will generate {expression.size()} lines.")
@@ -60,6 +69,12 @@ if __name__ == "__main__":
         "-f",
         "--force",
         help="Will allow Fuzex to process a large generation of words",
+        action="store_true",
+    )
+    parser.add_argument(
+        "-d",
+        "--debug",
+        help="Enable debug mode",
         action="store_true",
     )
 
