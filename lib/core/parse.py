@@ -209,7 +209,7 @@ class Parser:
         return Join(expression)
 
     def _parse_variable_name(self):
-        return "var"
+        return Char("var") # TODO: implement actual variables?
 
     def _parse_variable(self) -> Variable:
         i, c = self.Lexer.consume()
